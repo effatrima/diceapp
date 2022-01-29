@@ -1,6 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
-void main(){
+void main(List<String> args) {
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -8,122 +9,68 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomePage(),);
-  }
-}
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final pages=[
-    Container(
-      color: Color(0xff7f8fa6),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.asset('images/82791170.jpg'),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30,),
-            child: Column(
-              children: [
-                Text('Moon',style: TextStyle(fontWeight: FontWeight.bold,
-                    fontSize: 40),),
-                Text('Moon Light',style: TextStyle(color: Colors.brown),),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-    ),
-    Container(
-      color: Color(0xffa29bfe),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.asset('images/Health-Tips-Moon-i513399433.jpeg'),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30,),
-            child: Column(
-              children: [
-                Text('MoonNight',style: TextStyle(fontWeight: FontWeight.bold,
-                    fontSize: 40),),
-                Text('Moon Light',style: TextStyle(color: Colors.brown),),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-    ),
-    Container(
-      color: Color(0xff192a56),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.asset('images/night-sky-full-moon-house-600w-640408570.webp'),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30,),
-            child: Column(
-              children: [
-                Text('MoonNight',style: TextStyle(fontWeight: FontWeight.bold,
-                    fontSize: 40),),
-                Text('Moon Light',style: TextStyle(color: Colors.red),),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-    ),
-    Container(
-      color: Color(0xff273c75),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image.asset('images/silhouette-two-soft-hearts-front-260nw-1600097518.jpg'),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30,),
-            child: Column(
-              children: [
-                Text('MoonNight',style: TextStyle(fontWeight: FontWeight.bold,
-                    fontSize: 40),),
-                Text('Moon Light',style: TextStyle(color: Colors.red),),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-    ),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LiquidSwipe(
-        pages: pages,
-        enableLoop: true,
-        fullTransitionValue: 600,
-        enableSideReveal: true,
-      ),
-
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: DicePage(),
     );
   }
 }
+class DicePage extends StatefulWidget {
+  const DicePage({Key? key}) : super(key: key);
 
+  @override
+  _DicePageState createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber=1;
+  int rightDiceNumber=1;
+  void dicechangeface(){
+    setState(() {
+      leftDiceNumber=Random().nextInt(6)+1;
+      rightDiceNumber=Random().nextInt(6)+1;
+
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blueGrey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text('DiceApp', style: TextStyle(
+          color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold,
+        ),
+        ),
+        centerTitle: true,
+        elevation: 30,
+      ),
+      body: Center(
+        child: Row(
+          children: [
+            Expanded(
+              child: FlatButton (
+                onPressed: (){
+                  dicechangeface();
+                },
+                child: Image(
+                  image: AssetImage( 'images/dice$leftDiceNumber.png'),
+                ),
+              ),
+            ),
+            Expanded(
+              child: FlatButton (
+                onPressed: (){
+                  dicechangeface();
+                },
+                child: Image(
+                  image: AssetImage( 'images/dice$rightDiceNumber.png'),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
